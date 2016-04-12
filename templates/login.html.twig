@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Angular Forms</title>
+		<link rel="stylesheet" href="/assets/bootstrap/dist/css/bootstrap.min.css">
+	</head>
+	<body ng-app="formApp" ng-controller="mainCtrl">
+		<div class="container">
+			<div class="col-md-6 col-md-offset-3">
+				{# Page Title #}
+				<div class="page-header">
+					<h1><span class="glyphicon glyphicon-upload"></span> Submitting Forms With Angular</h1>
+				</div>
+				{# Show Error/Success Messages #}
+				<div id="messages" ng-show="message" ng-class="{ 'alert alert-success' : message }">
+					{% verbatim %}
+						{{ message }}
+					{% endverbatim %}
+				</div>
+				{# Form #}
+				<form ng-submit="processForm()">
+					{# Name #}
+					<div id="name-group" class="form-group" ng-class="{ 'has-error' : errorName }">
+						<label for="">Name</label>
+						<input type="text" name="name" class="form-control" placeholder="your name" ng-model="formData.name">
+						<span class="help-block" ng-show="errorName">
+							{% verbatim %}
+								{{ errorName }}							
+							{% endverbatim %}
+						</span>
+					</div>
+					{# Email #}
+					<div id="emailgroup" class="form-group" ng-class="{ 'has-error' : errorEmail }">
+						<label for="">Email</label>
+						<input type="text" name="email" class="form-control" placeholder="your email" ng-model="formData.email">
+						<span class="help-block" ng-show="errorEmail">
+							{% verbatim %}
+								{{ errorEmail }}
+							{% endverbatim %}
+						</span>
+					</div>
+					{# Submit Button #}
+					<button type="submit" class="btn btn-success btn-lg btn-block">
+						<span class="glyphicon glyphicon-send"></span> Submit
+					</button>
+				</form>
+			</div>
+		</div>
+		<script scr="/assets/jquery/dist/jquery.min.js"></script>
+		<script src="/assets/angular/angular.min.js"></script>
+		<script>
+		// We will process our form here
+			
+			// define our angular module/app
+			var formApp = angular.module('formApp', []);
+
+			// create angular controller with $scope and $http
+			formApp.controller('mainCtrl', ['$scope', '$http', function($scope, $http){
+				// object that will hold our form data
+				$scope.formData = {};
+
+				// a function for processing the form
+				$scope.processForm = function() {
+					$http.post('/login', $scope.formData).success(function(data){
+						console.log(data);
+
+						if(!data.success) {
+							$scope.errorName = data.errors.name;
+							$scope.errorEmail = data.errors.email;
+						} else {
+							$scope.message = data.message;
+						}
+					});
+				};
+			}]);
+			/**
+			 * {
+						method: 'POST',
+						url: '/login',
+						data: $scope.formData, //$.param($scope.formData),
+						headers: {'contentType': 'application/x-www-form-urlencoded'}
+					}
+			 */
+		</script>
+	</body>
+</html>

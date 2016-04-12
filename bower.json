@@ -1,0 +1,22 @@
+{
+  "name": "submitting-ajax-forms-the-angularjs-way",
+  "authors": [
+    "Zied Ben Haj Salah <ziedhajsalah@gmail.com>"
+  ],
+  "description": "How to use angular to submit and validate forms",
+  "main": "./public/index.html",
+  "license": "MIT",
+  "homepage": "./public/index.html",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/assets",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.3",
+    "bootstrap": "^3.3.6"
+  }
+}
